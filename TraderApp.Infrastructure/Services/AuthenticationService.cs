@@ -24,20 +24,20 @@ namespace TraderApp.Infrastructure.Services
 
         public async Task<RegistrationResult> Register(string email, string username, string password, string confirmPassword)
         {
-            RegistrationResult registrationResult = RegistrationResult.Success;
+            RegistrationResult result = RegistrationResult.Success;
 
             if (password != confirmPassword)
-                 registrationResult = RegistrationResult.PasswordsDoNotMatch;
+                 result = RegistrationResult.PasswordsDoNotMatch;
 
             Account emailAccount = await _accountService.GetByEmail(email);
             if (emailAccount is not null)
-               registrationResult = RegistrationResult.EmailAlreadyExists;
+               result = RegistrationResult.EmailAlreadyExists;
 
-            Account usernameAccount = await _accountService.GetByUsername(email);
+            Account usernameAccount = await _accountService.GetByUsername(username);
             if (usernameAccount is not null)
-                registrationResult = RegistrationResult.UserNameAlreadyExists;
+                result = RegistrationResult.UserNameAlreadyExists;
 
-            if (registrationResult is RegistrationResult.Success)
+            if (result is RegistrationResult.Success)
             {
                 User user = new User
                 {
@@ -55,12 +55,14 @@ namespace TraderApp.Infrastructure.Services
                 await _accountService.CreateAsync(account);
             }
 
-            return registrationResult;
+            return result;
         }
 
         public async Task<Account> Login(string username, string password)
         {
             Account storedAccount = await _accountService.GetByUsername(username);
+            if(storedAccount is null)
+                throw new UserNotFoundException(username);
 
             PasswordVerificationResult passwordResult = _passwordHasher.VerifyHashedPassword(new User(), storedAccount.User.PasswordHash, password);
 
