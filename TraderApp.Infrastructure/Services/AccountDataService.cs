@@ -11,7 +11,7 @@ using TraderApp.Infrastructure.EF;
 
 namespace TraderApp.Infrastructure.Services
 {
-    public class AccountDataService : IDataService<Account>
+    public class AccountDataService : IAccountService
     {
         private readonly TraderDbDesignTimeOptionsFactory _contextFactory;
 
@@ -48,9 +48,10 @@ namespace TraderApp.Infrastructure.Services
             using (var context = _contextFactory.CreateDbContext())
             {
                 IEnumerable<Account> entities = await context.Accounts
-                    .Include(x => x.AssetTransactions)
-                    .AsSplitQuery()
-                    .ToListAsync();
+                        .Include(a => a.User)
+                        .Include(a => a.AssetTransactions)
+                        .AsSplitQuery()
+                        .ToListAsync();
                 return entities;
             }
         }
@@ -60,9 +61,36 @@ namespace TraderApp.Infrastructure.Services
             using (var context = _contextFactory.CreateDbContext())
             {
                 Account entity = await
-                    context.Accounts.Include(x => x.AssetTransactions)
-                    .AsSplitQuery()
-                    .FirstOrDefaultAsync(e => e.Id == id);
+                    context.Accounts.Include(a => a.User)
+                                    .Include(a => a.AssetTransactions)
+                                    .AsSplitQuery()
+                                    .FirstOrDefaultAsync(e => e.Id == id);
+                return entity;
+            }
+        }
+
+        public async Task<Account> GetByEmail(string email)
+        {
+            using (var context = _contextFactory.CreateDbContext())
+            {
+                Account entity = await
+                    context.Accounts.Include(x => x.User)
+                                    .Include(a => a.AssetTransactions)
+                                    .AsSplitQuery()
+                                    .FirstOrDefaultAsync(e => e.User.Email == email);
+                return entity;
+            }
+        }
+
+        public async Task<Account> GetByUsername(string userName)
+        {
+            using (var context = _contextFactory.CreateDbContext())
+            {
+                Account entity = await
+                    context.Accounts.Include(x => x.User)
+                                    .Include(a => a.AssetTransactions)
+                                    .AsSplitQuery()
+                                    .FirstOrDefaultAsync(e => e.User.UserName == userName);
                 return entity;
             }
         }

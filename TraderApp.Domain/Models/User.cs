@@ -12,7 +12,7 @@ namespace TraderApp.Domain.Models
 
         public string UserName { get; set; }
 
-        public string Password { get; set; }
+        public string PasswordHash { get; set; }
 
         public DateTime DateTimeJoined { get; set; }
     }

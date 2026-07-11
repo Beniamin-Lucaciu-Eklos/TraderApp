@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.DependencyInjection;
 using System.Configuration;
 using System.Data;
 using System.Threading.Tasks;
@@ -41,10 +42,13 @@ namespace TraderApp.Wpf
             IServiceCollection services = new ServiceCollection();
 
             services.AddSingleton<TraderDbDesignTimeOptionsFactory>();
-            services.AddSingleton<IDataService<Account>, AccountDataService>();
+            services.AddSingleton<IAuthenticationService, AuthenticationService>();
+            services.AddSingleton<IAccountService, AccountDataService>();
             services.AddSingleton<IBuyStockService, BuyStockService>();
             services.AddSingleton<IStockPriceService, MockStockPriceService>();
             services.AddSingleton<IMajorIndexService, MockMajorIndexService>();
+
+            services.AddSingleton<IPasswordHasher<User>, PasswordHasher<User>>();
 
             services.AddSingleton<IRootTraderViewModelFactory, RootTraderViewModelFactory>();
             services.AddSingleton<ITraderViewModelFactory<HomeViewModel>, HomeViewModelFactory>();
