@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace TraderApp.Wpf.ViewModels
 {
-    public class PortfolioViewModel : ViewModelBase
+    public partial class PortfolioViewModel : ViewModelBase
     {
     }
 }

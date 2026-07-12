@@ -33,7 +33,7 @@
             
             <local:MajorIndexCard Grid.Column="2"
                           Margin="10 0"
-                          DataContext="{Binding SP500}"/>
+                          DataContext="{Binding Sp500}"/>
         </Grid>
 
     </Grid>

@@ -8,5 +8,6 @@ namespace TraderApp.Wpf.State.Navigators
         Portofolio,
         Buy,
         Sell,
+        Login
     }
 }

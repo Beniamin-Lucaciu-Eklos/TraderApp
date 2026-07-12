@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,7 +9,7 @@ using TraderApp.Domain.Models;
 
 namespace TraderApp.Wpf.ViewModels
 {
-    public class MajorIndexListingViewModel : ViewModelBase
+    public partial class MajorIndexListingViewModel : ViewModelBase
     {
         private readonly IMajorIndexService _majorIndexService;
 
@@ -32,41 +33,17 @@ namespace TraderApp.Wpf.ViewModels
 
                 Nasdaq = await _majorIndexService.GetMajorIndexAsync(MajorIndexType.Nasdaq);
 
-                SP500 = await _majorIndexService.GetMajorIndexAsync(MajorIndexType.SP500);
+                Sp500 = await _majorIndexService.GetMajorIndexAsync(MajorIndexType.SP500);
             });
         }
 
+        [ObservableProperty]
         private MajorIndex _downJones;
-        public MajorIndex DownJones
-        {
-            get => _downJones;
-            set
-            {
-                _downJones = value;
-                OnPropertyChanged(nameof(DownJones));
-            }
-        }
 
+        [ObservableProperty]
         private MajorIndex _nasdaq;
-        public MajorIndex Nasdaq
-        {
-            get => _nasdaq;
-            set
-            {
-                _nasdaq = value;
-                OnPropertyChanged(nameof(Nasdaq));
-            }
-        }
 
+        [ObservableProperty]
         private MajorIndex _sp500;
-        public MajorIndex SP500
-        {
-            get => _sp500;
-            set
-            {
-                _sp500 = value;
-                OnPropertyChanged(nameof(SP500));
-            }
-        }
     }
 }

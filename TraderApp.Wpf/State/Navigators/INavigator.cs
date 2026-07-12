@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CommunityToolkit.Mvvm.Input;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -12,6 +13,6 @@ namespace TraderApp.Wpf.State.Navigators
     {
         ViewModelBase CurrentViewModel { get; set; }
 
-        ICommand UpdateCurrentViewModelCommand { get; }
+        IRelayCommand<object> UpdateCurrentViewModelCommand { get; }
     }
 }

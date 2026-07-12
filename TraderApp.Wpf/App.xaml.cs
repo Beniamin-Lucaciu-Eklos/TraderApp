@@ -10,6 +10,7 @@ using TraderApp.Domain.Models;
 using TraderApp.FinancialApi.Services;
 using TraderApp.Infrastructure.EF;
 using TraderApp.Infrastructure.Services;
+using TraderApp.Wpf.State.Authentication;
 using TraderApp.Wpf.State.Navigators;
 using TraderApp.Wpf.ViewModels;
 using TraderApp.Wpf.ViewModels.Factories;
@@ -24,7 +25,12 @@ namespace TraderApp.Wpf
         protected override void OnStartup(StartupEventArgs e)
         {
             IServiceProvider serviceProvider = CreateServiceProvider();
+            //Task.Run(async () =>
+            //{
+            //    var auth = serviceProvider.GetRequiredService<IAuthenticationService>();
+            //   var registerationResult = await auth.Register("ben@ben.ro", "benLuc", "test123", "test123");
 
+            //});
             MainWindow mainWindow = serviceProvider.GetRequiredService<MainWindow>();
             mainWindow.Show();
 
@@ -54,8 +60,10 @@ namespace TraderApp.Wpf
             services.AddSingleton<ITraderViewModelFactory<HomeViewModel>, HomeViewModelFactory>();
             services.AddSingleton<ITraderViewModelFactory<PortfolioViewModel>, PortoflioViewModelFactory>();
             services.AddSingleton<ITraderViewModelFactory<MajorIndexListingViewModel>, MajorIndexListingFactoryViewModel>();
+            services.AddSingleton<ITraderViewModelFactory<LoginViewModel>, LoginViewModelFactory>();
 
             services.AddScoped<INavigator, Navigator>();
+            services.AddScoped<IAuthenticator, Authenticator>();
             services.AddScoped<MainViewModel>();
             services.AddScoped<BuyViewModel>();
             services.AddScoped<SellViewModel>();

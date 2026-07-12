@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace TraderApp.Wpf.ViewModels
 {
-    public class SellViewModel : ViewModelBase
+    public partial class SellViewModel : ViewModelBase
     {
     }
 }

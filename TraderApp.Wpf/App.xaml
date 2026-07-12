@@ -27,6 +27,11 @@
             <DataTemplate DataType="{x:Type vm:SellViewModel}">
                 <views:SellView DataContext="{Binding}"/>
             </DataTemplate>
+
+            <DataTemplate DataType="{x:Type vm:LoginViewModel}">
+                <views:LoginView DataContext="{Binding}"
+                                 Password="{Binding Password}"/>
+            </DataTemplate>
         </ResourceDictionary>
 
     </Application.Resources>

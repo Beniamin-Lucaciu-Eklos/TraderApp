@@ -1,31 +1,34 @@
-﻿using System.ComponentModel;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
+using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Windows.Input;
 using TraderApp.Wpf.Commands;
-using TraderApp.Wpf.Models;
 using TraderApp.Wpf.ViewModels;
 using TraderApp.Wpf.ViewModels.Factories;
 
 namespace TraderApp.Wpf.State.Navigators
 {
-    public class Navigator : ObservableObject, INavigator
+    public partial class Navigator : ObservableObject, INavigator
     {
+        private readonly IRootTraderViewModelFactory _viewModelFactory;
+
         public Navigator(IRootTraderViewModelFactory viewModelFactory)
         {
-            UpdateCurrentViewModelCommand = new UpdateCurrentViewModelCommand(this, viewModelFactory);
+            _viewModelFactory = viewModelFactory;
         }
 
+        [ObservableProperty]
         private ViewModelBase _currentViewModel;
-        public ViewModelBase CurrentViewModel
+
+
+        [RelayCommand]
+        private void UpdateCurrentViewModel(object parameter)
         {
-            get => _currentViewModel;
-            set
+            if (parameter is ViewType viewType)
             {
-                _currentViewModel = value;
-                OnPropertyChanged();
+                CurrentViewModel = _viewModelFactory.CreateViewModel(viewType);
             }
         }
-
-        public ICommand UpdateCurrentViewModelCommand { get; set; }
     }
 }

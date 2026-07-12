@@ -8,17 +8,20 @@ namespace TraderApp.Wpf.ViewModels.Factories
     {
         private readonly ITraderViewModelFactory<HomeViewModel> _homeViewModelFactory;
         private readonly ITraderViewModelFactory<PortfolioViewModel> _portofolioViewModelFactory;
+        private readonly ITraderViewModelFactory<LoginViewModel> _loginViewModel;
         private readonly BuyViewModel _buyViewModel;
         private readonly SellViewModel _sellViewModel;
 
         public RootTraderViewModelFactory(
             ITraderViewModelFactory<HomeViewModel> homeViewModelFactory,
             ITraderViewModelFactory<PortfolioViewModel> portofolioViewModelFactory,
+            ITraderViewModelFactory<LoginViewModel> loginViewModel,
             BuyViewModel buyViewModel,
             SellViewModel sellViewModel)
         {
             _homeViewModelFactory = homeViewModelFactory;
             _portofolioViewModelFactory = portofolioViewModelFactory;
+            _loginViewModel = loginViewModel;
             _buyViewModel = buyViewModel;
             _sellViewModel = sellViewModel;
         }
@@ -32,6 +35,10 @@ namespace TraderApp.Wpf.ViewModels.Factories
 
                 ViewType.Portofolio
                     => _portofolioViewModelFactory.CreateViewModel(),
+
+
+                ViewType.Login
+                    => _loginViewModel.CreateViewModel(),
 
                 ViewType.Buy
                     => _buyViewModel,

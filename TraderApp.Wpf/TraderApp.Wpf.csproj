@@ -9,8 +9,22 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Resources\images\trade_app_icon.jpg" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.2" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\TraderApp.FinancialApi\TraderApp.FinancialApi.csproj" />
     <ProjectReference Include="..\TraderApp.Infrastructure\TraderApp.Infrastructure.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Resources\images\trade_app_icon.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
   </ItemGroup>
 
   <ItemGroup>
@@ -20,6 +34,10 @@
     <Compile Update="Views\BuyView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Models\" />
   </ItemGroup>
 
 </Project>
