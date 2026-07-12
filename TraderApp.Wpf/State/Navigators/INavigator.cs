@@ -12,7 +12,5 @@ namespace TraderApp.Wpf.State.Navigators
     public interface INavigator
     {
         ViewModelBase CurrentViewModel { get; set; }
-
-        IRelayCommand<object> UpdateCurrentViewModelCommand { get; }
     }
 }

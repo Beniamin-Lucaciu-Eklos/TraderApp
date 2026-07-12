@@ -60,7 +60,14 @@ namespace TraderApp.Wpf
             services.AddSingleton<ITraderViewModelFactory<HomeViewModel>, HomeViewModelFactory>();
             services.AddSingleton<ITraderViewModelFactory<PortfolioViewModel>, PortoflioViewModelFactory>();
             services.AddSingleton<ITraderViewModelFactory<MajorIndexListingViewModel>, MajorIndexListingFactoryViewModel>();
-            services.AddSingleton<ITraderViewModelFactory<LoginViewModel>, LoginViewModelFactory>();
+
+            services.AddSingleton<ITraderViewModelFactory<LoginViewModel>>(services =>
+            new LoginViewModelFactory(
+                services.GetRequiredService<IAuthenticator>(),
+                new ViewModelFactoryRenavigator<HomeViewModel>(
+                    services.GetRequiredService<INavigator>(),
+                    services.GetRequiredService<ITraderViewModelFactory<HomeViewModel>>())
+            ));
 
             services.AddScoped<INavigator, Navigator>();
             services.AddScoped<IAuthenticator, Authenticator>();

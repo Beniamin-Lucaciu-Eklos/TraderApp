@@ -11,7 +11,6 @@ using TraderApp.Application.Services;
 using TraderApp.Application.Services.TransactionServices;
 using TraderApp.Domain.Models;
 using TraderApp.Infrastructure.Services;
-using TraderApp.Wpf.Commands;
 
 namespace TraderApp.Wpf.ViewModels
 {

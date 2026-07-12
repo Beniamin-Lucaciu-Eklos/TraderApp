@@ -7,17 +7,21 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
-using TraderApp.Wpf.Commands;
 using TraderApp.Wpf.State.Authentication;
+using TraderApp.Wpf.State.Navigators;
 
 namespace TraderApp.Wpf.ViewModels
 {
     public partial class LoginViewModel : ViewModelBase
     {
         private readonly IAuthenticator _authenticator;
-        public LoginViewModel(IAuthenticator authenticator)
+        private readonly IRenavigator _renavigator;
+
+        public LoginViewModel(IAuthenticator authenticator, 
+            IRenavigator renavigator)
         {
             _authenticator = authenticator;
+            this._renavigator = renavigator;
         }
 
         [ObservableProperty]
@@ -30,13 +34,15 @@ namespace TraderApp.Wpf.ViewModels
         private async Task LoginAsync()
         {
             bool success = await _authenticator.Login(UserName, Password);
-            if (success)
-                MessageBox.Show("succesfully logged");
-            else
-                MessageBox.Show("login failed");
 
+            if (!success)
+            {
+                MessageBox.Show($"Failed login for userName {UserName}", "Failed");
+                return;
+            }
+
+            _renavigator.Renavigate();
+          //  _navigator.UpdateCurrentViewModelCommand.Execute(ViewType.Home);
         }
-
-
     }
 }
