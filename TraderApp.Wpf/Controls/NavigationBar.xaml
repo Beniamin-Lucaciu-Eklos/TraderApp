@@ -22,25 +22,29 @@
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
-        <TextBlock Text="Trade App Name" Grid.Row="0"
-                   Padding="10"
-                   FontSize="28"
-                   Foreground="White"
-                   Background="{StaticResource PrimaryBrush1}"/>
+        <Grid Grid.Row="0" 
+                   Background="{StaticResource PrimaryBrush1}">
+            <TextBlock Text="Trade App Name"
+                       Padding="10"
+                       FontSize="28"
+                       Foreground="White"
+                       MaxWidth="1000"/>
+        </Grid>
 
         <Grid Grid.Row="1"
               RenderOptions.EdgeMode="Aliased"
               Background="{StaticResource PrimaryBrush2}">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="auto"/>
-                <ColumnDefinition Width="auto"/>
-                <ColumnDefinition Width="auto"/>
-                <ColumnDefinition Width="auto"/>
-                <ColumnDefinition Width="*"/>
-            </Grid.ColumnDefinitions>
+            <Grid MaxWidth="1000">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="auto"/>
+                    <ColumnDefinition Width="auto"/>
+                    <ColumnDefinition Width="auto"/>
+                    <ColumnDefinition Width="auto"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
 
-            <RadioButton Content="Home" Grid.Column="0"
-                         IsChecked="{Binding Navigator.CurrentViewModel,
+                <RadioButton Content="Home" Grid.Column="0"
+                         IsChecked="{Binding CurrentViewModel,
                                             Mode=OneWay,
                                             ConverterParameter={x:Type vm:HomeViewModel},
                                             Converter={StaticResource cnv_EqualValueToParam}
@@ -48,8 +52,8 @@
                          Command="{Binding UpdateCurrentViewModelCommand}"
                          CommandParameter="{x:Static nav:ViewType.Home}" />
 
-            <RadioButton Content="Portfolio" Grid.Column="1"
-                         IsChecked="{Binding Navigator.CurrentViewModel,
+                <RadioButton Content="Portfolio" Grid.Column="1"
+                         IsChecked="{Binding CurrentViewModel,
                             Mode=OneWay,
                             ConverterParameter={x:Type vm:PortfolioViewModel},
                             Converter={StaticResource cnv_EqualValueToParam}
@@ -57,8 +61,8 @@
                          Command="{Binding UpdateCurrentViewModelCommand}"
                          CommandParameter="{x:Static nav:ViewType.Portofolio}"/>
 
-            <RadioButton Content="Buy" Grid.Column="2"                         
-                         IsChecked="{Binding Navigator.CurrentViewModel,
+                <RadioButton Content="Buy" Grid.Column="2"                         
+                         IsChecked="{Binding CurrentViewModel,
                             Mode=OneWay,
                             ConverterParameter={x:Type vm:BuyViewModel},
                             Converter={StaticResource cnv_EqualValueToParam}
@@ -66,14 +70,15 @@
                          Command="{Binding UpdateCurrentViewModelCommand}"
                          CommandParameter="{x:Static nav:ViewType.Buy}"/>
 
-            <RadioButton Content="Sell" Grid.Column="3" 
-                         IsChecked="{Binding Navigator.CurrentViewModel,
+                <RadioButton Content="Sell" Grid.Column="3" 
+                         IsChecked="{Binding CurrentViewModel,
                             Mode=OneWay,
                             ConverterParameter={x:Type vm:SellViewModel},
                             Converter={StaticResource cnv_EqualValueToParam}
                                     }"
                              Command="{Binding UpdateCurrentViewModelCommand}"
                              CommandParameter="{x:Static nav:ViewType.Sell}"/>
+            </Grid>
         </Grid>
     </Grid>
 </UserControl>

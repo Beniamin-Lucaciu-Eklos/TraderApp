@@ -32,6 +32,12 @@
                 <views:LoginView DataContext="{Binding}"
                                  Password="{Binding Password}"/>
             </DataTemplate>
+            
+            <DataTemplate DataType="{x:Type vm:RegisterViewModel}">
+                <views:RegisterView DataContext="{Binding}"
+                                    Password="{Binding Password}"
+                                    ConfirmPassword="{Binding ConfirmPassword}"/>
+            </DataTemplate>
         </ResourceDictionary>
 
     </Application.Resources>

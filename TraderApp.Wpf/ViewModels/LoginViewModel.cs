@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
+using TraderApp.Domain.Exceptions;
 using TraderApp.Wpf.State.Authentication;
 using TraderApp.Wpf.State.Navigators;
 
@@ -15,13 +16,18 @@ namespace TraderApp.Wpf.ViewModels
     public partial class LoginViewModel : ViewModelBase
     {
         private readonly IAuthenticator _authenticator;
-        private readonly IRenavigator _renavigator;
+        private readonly IRenavigator _loginRenavigator;
+        private readonly IRenavigator _registerRenavigator;
 
-        public LoginViewModel(IAuthenticator authenticator, 
-            IRenavigator renavigator)
+        public LoginViewModel(IAuthenticator authenticator,
+            IRenavigator loginRenavigator,
+            IRenavigator registerRenavigator)
         {
             _authenticator = authenticator;
-            this._renavigator = renavigator;
+            this._loginRenavigator = loginRenavigator;
+
+            ErrorMessageViewModel = new MessageViewModel();
+            _registerRenavigator = registerRenavigator;
         }
 
         [ObservableProperty]
@@ -30,19 +36,36 @@ namespace TraderApp.Wpf.ViewModels
         [ObservableProperty]
         private string _password;
 
+        public MessageViewModel ErrorMessageViewModel { get; }
+
         [RelayCommand]
         private async Task LoginAsync()
         {
-            bool success = await _authenticator.Login(UserName, Password);
+            ErrorMessageViewModel.Message = null;
 
-            if (!success)
+            try
             {
-                MessageBox.Show($"Failed login for userName {UserName}", "Failed");
-                return;
+                await _authenticator.Login(UserName, Password);
+                _loginRenavigator.Renavigate();
             }
+            catch (UserNotFoundException)
+            {
+                ErrorMessageViewModel.Message = $"{UserName} not found";
+            }
+            catch (InvalidPasswordException)
+            {
+                ErrorMessageViewModel.Message = $"Incorrect password";
+            }
+            catch (Exception)
+            {
+                ErrorMessageViewModel.Message = $"Failed login for userName {UserName} ";
+            }
+        }
 
-            _renavigator.Renavigate();
-          //  _navigator.UpdateCurrentViewModelCommand.Execute(ViewType.Home);
+        [RelayCommand]
+        private void ViewRegister()
+        {
+            _registerRenavigator.Renavigate();
         }
     }
 }

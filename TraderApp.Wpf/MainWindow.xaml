@@ -5,8 +5,10 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:TraderApp.Wpf"
         xmlns:controls="clr-namespace:TraderApp.Wpf.Controls"
+        WindowStartupLocation="CenterScreen"
         mc:Ignorable="d"
-        Title="Trade App" Height="600" Width="800">
+        Title="Trade App" Height="600" Width="800"
+        MinWidth="600" MinHeight="400">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="auto"/>
@@ -17,7 +19,7 @@
             <Grid.Style>
                 <Style TargetType="Grid">
                     <Style.Triggers>
-                        <DataTrigger Binding="{Binding Authenticator.IsLoggedIn}"
+                        <DataTrigger Binding="{Binding IsLoggedIn}"
                                      Value="False">
                             <Setter Property="Visibility" Value="Collapsed" />
                         </DataTrigger>
@@ -30,7 +32,7 @@
 
         <ScrollViewer Grid.Row="1" HorizontalScrollBarVisibility="Disabled"
                       VerticalScrollBarVisibility="Auto">
-            <ContentControl Content="{Binding Navigator.CurrentViewModel}" />
+            <ContentControl Content="{Binding CurrentViewModel}" />
         </ScrollViewer>
 
     </Grid>

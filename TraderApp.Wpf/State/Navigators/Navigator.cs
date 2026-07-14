@@ -8,10 +8,20 @@ using TraderApp.Wpf.ViewModels.Factories;
 
 namespace TraderApp.Wpf.State.Navigators
 {
-    public partial class Navigator : ObservableObject, INavigator
+    public class Navigator : INavigator
     {
-        [ObservableProperty]
+        public event Action StateChanged;
+
         private ViewModelBase _currentViewModel;
-      
+        public ViewModelBase CurrentViewModel
+        {
+            get { return _currentViewModel; }
+            set
+            {
+                _currentViewModel = value;
+                StateChanged?.Invoke();
+            }
+        }
+
     }
 }

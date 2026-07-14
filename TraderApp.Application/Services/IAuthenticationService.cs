@@ -19,6 +19,15 @@ namespace TraderApp.Application.Services
     {
         Task<RegistrationResult> Register(string email, string username, string password, string confirmPassword);
 
+        /// <summary>
+        /// Login to application
+        /// </summary>
+        /// <param name="userName">the user's Name</param>
+        /// <param name="password">the user's password</param>
+        /// <returns>login by username and password</returns>
+        /// <exception cref="UserNotFoundException">thrown if user does not exists</exception>
+        /// <exception cref="InvalidPasswordException">thrown if password is invalid</exception>
+        /// <exception cref="Exception">login fails</exception>
         Task<Account> Login(string username, string password);
     }
 }

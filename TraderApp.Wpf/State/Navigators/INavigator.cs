@@ -11,6 +11,7 @@ namespace TraderApp.Wpf.State.Navigators
 {
     public interface INavigator
     {
+        public event Action StateChanged;
         ViewModelBase CurrentViewModel { get; set; }
     }
 }

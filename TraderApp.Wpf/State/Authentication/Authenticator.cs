@@ -1,38 +1,37 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using TraderApp.Application.Services;
 using TraderApp.Domain.Models;
+using TraderApp.Wpf.State.Accounts;
 namespace TraderApp.Wpf.State.Authentication
 {
-    public partial class Authenticator : ObservableObject,
-        IAuthenticator
+    public class Authenticator : IAuthenticator
     {
         private readonly IAuthenticationService _authenticationService;
+        private readonly IAccountStore _accountStore;
+        public event Action StateChanged;
 
-        public Authenticator(IAuthenticationService authenticationService)
+        public Authenticator(IAuthenticationService authenticationService,
+            IAccountStore accountStore)
         {
             _authenticationService = authenticationService;
+            _accountStore = accountStore;
         }
 
-        [ObservableProperty]
-        [NotifyPropertyChangedFor(nameof(IsLoggedIn))]
-        private Account _currentAccount;
+        public Account CurrentAccount
+        {
+            get { return _accountStore.CurrentAccount; }
+            private set
+            {
+                _accountStore.CurrentAccount = value;
+                StateChanged?.Invoke();
+            }
+        }
 
         public bool IsLoggedIn => CurrentAccount is not null;
 
-        public async Task<bool> Login(string userName, string password)
+        public async Task Login(string userName, string password)
         {
-            bool success = true;
-
-            try
-            {
-                CurrentAccount = await _authenticationService.Login(userName, password);
-            }
-            catch (Exception)
-            {
-                success = false;
-            }
-
-            return success;
+            CurrentAccount = await _authenticationService.Login(userName, password);
         }
 
         public void LogOut()

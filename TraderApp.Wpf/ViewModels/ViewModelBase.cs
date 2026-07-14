@@ -7,6 +7,8 @@ using System.Threading.Tasks;
 
 namespace TraderApp.Wpf.ViewModels
 {
+    public delegate TViewModel CreateViewModel<TViewModel>();    
+   
     public partial class ViewModelBase : ObservableObject
     {
     }

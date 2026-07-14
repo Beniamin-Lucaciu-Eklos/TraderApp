@@ -11,18 +11,37 @@ using TraderApp.Wpf.ViewModels.Factories;
 namespace TraderApp.Wpf.ViewModels
 {
     public partial class MainViewModel : ViewModelBase
-    {    
+    {
         private readonly IRootTraderViewModelFactory _rootTraderViewModelFactory;
+        private readonly INavigator _navigator;
+        private readonly IAuthenticator _authenticator;
         public MainViewModel(
             IRootTraderViewModelFactory rootTraderViewModelFactory,
-            INavigator navigator, 
+            INavigator navigator,
             IAuthenticator authenticator)
         {
             _rootTraderViewModelFactory = rootTraderViewModelFactory;
-            Navigator = navigator;
-            Authenticator = authenticator;
+            _navigator = navigator;
+            _navigator.StateChanged += Navigator_StateChanged;
+
+            _authenticator = authenticator;
+            _authenticator.StateChanged += Authenticator_StateChanged;
 
             StartUI();
+        }
+
+        public bool IsLoggedIn => _authenticator.IsLoggedIn;
+
+        public ViewModelBase CurrentViewModel
+        {
+            get
+            {
+                return _navigator.CurrentViewModel;
+            }
+            private set
+            {
+                _navigator.CurrentViewModel = value;
+            }
         }
 
         private void StartUI()
@@ -30,16 +49,22 @@ namespace TraderApp.Wpf.ViewModels
             UpdateCurrentViewModelCommand.Execute(ViewType.Login);
         }
 
-        public INavigator Navigator { get; private set; }
+        private void Navigator_StateChanged()
+        {
+            OnPropertyChanged(nameof(CurrentViewModel));
+        }
 
-        public IAuthenticator Authenticator { get; }
+        private void Authenticator_StateChanged()
+        {
+            OnPropertyChanged(nameof(IsLoggedIn));
+        }
 
         [RelayCommand]
         private void UpdateCurrentViewModel(object parameter)
         {
             if (parameter is ViewType viewType)
             {
-                Navigator.CurrentViewModel = _rootTraderViewModelFactory.CreateViewModel(viewType);
+                CurrentViewModel = _rootTraderViewModelFactory.CreateViewModel(viewType);
             }
         }
     }

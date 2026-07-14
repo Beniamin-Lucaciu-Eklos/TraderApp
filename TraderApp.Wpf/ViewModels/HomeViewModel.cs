@@ -9,11 +9,14 @@ namespace TraderApp.Wpf.ViewModels
 {
     public class HomeViewModel : ViewModelBase
     {
-        public HomeViewModel(MajorIndexListingViewModel majorIndexViewModel)
+        public HomeViewModel(MajorIndexListingViewModel majorIndexViewModel, AssetSummaryViewModel assetSummaryViewModel)
         {
             MajorIndexViewModel = majorIndexViewModel;
+            AssetSummaryViewModel = assetSummaryViewModel;
         }
 
-        public MajorIndexListingViewModel MajorIndexViewModel { get; private set; }
+        public MajorIndexListingViewModel MajorIndexViewModel { get; }
+
+        public AssetSummaryViewModel AssetSummaryViewModel { get; }
     }
 }

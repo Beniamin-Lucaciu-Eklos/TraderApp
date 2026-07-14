@@ -18,18 +18,18 @@ namespace TraderApp.Wpf.State.Navigators
          where TViewModel : ViewModelBase
     {
         private readonly INavigator _navigator;
-        private readonly ITraderViewModelFactory<TViewModel> _viewModelFactory;
+        private readonly CreateViewModel<TViewModel> _createViewModel;
 
-        public ViewModelFactoryRenavigator(INavigator navigator,
-            ITraderViewModelFactory<TViewModel> viewModelFactory)
+        public ViewModelFactoryRenavigator(INavigator navigator, CreateViewModel<TViewModel> createViewModel)
         {
             _navigator = navigator;
-            _viewModelFactory = viewModelFactory;
+            _createViewModel = createViewModel;
         }
+
 
         public void Renavigate()
         {
-            _navigator.CurrentViewModel = _viewModelFactory.CreateViewModel();
+            _navigator.CurrentViewModel = _createViewModel();
         }
     }
 }

@@ -6,22 +6,22 @@ namespace TraderApp.Wpf.ViewModels.Factories
 {
     public class RootTraderViewModelFactory : IRootTraderViewModelFactory
     {
-        private readonly ITraderViewModelFactory<HomeViewModel> _homeViewModelFactory;
-        private readonly ITraderViewModelFactory<PortfolioViewModel> _portofolioViewModelFactory;
-        private readonly ITraderViewModelFactory<LoginViewModel> _loginViewModel;
+        private readonly CreateViewModel<HomeViewModel> _createHomeViewModel;
+        private readonly CreateViewModel<PortfolioViewModel> _createPortofolioViewModel;
+        private readonly CreateViewModel<LoginViewModel> _createLoginViewModel;
         private readonly BuyViewModel _buyViewModel;
         private readonly SellViewModel _sellViewModel;
 
         public RootTraderViewModelFactory(
-            ITraderViewModelFactory<HomeViewModel> homeViewModelFactory,
-            ITraderViewModelFactory<PortfolioViewModel> portofolioViewModelFactory,
-            ITraderViewModelFactory<LoginViewModel> loginViewModel,
+            CreateViewModel<HomeViewModel> createHomeViewModel,
+            CreateViewModel<PortfolioViewModel> createPortofolioViewModel,
+            CreateViewModel<LoginViewModel> createLoginViewModel,
             BuyViewModel buyViewModel,
             SellViewModel sellViewModel)
         {
-            _homeViewModelFactory = homeViewModelFactory;
-            _portofolioViewModelFactory = portofolioViewModelFactory;
-            _loginViewModel = loginViewModel;
+            _createHomeViewModel = createHomeViewModel;
+            _createPortofolioViewModel = createPortofolioViewModel;
+            _createLoginViewModel = createLoginViewModel;
             _buyViewModel = buyViewModel;
             _sellViewModel = sellViewModel;
         }
@@ -31,14 +31,14 @@ namespace TraderApp.Wpf.ViewModels.Factories
             return viewType switch
             {
                 ViewType.Home
-                    => _homeViewModelFactory.CreateViewModel(),
+                    => _createHomeViewModel(),
 
                 ViewType.Portofolio
-                    => _portofolioViewModelFactory.CreateViewModel(),
+                    => _createPortofolioViewModel(),
 
 
                 ViewType.Login
-                    => _loginViewModel.CreateViewModel(),
+                    => _createLoginViewModel(),
 
                 ViewType.Buy
                     => _buyViewModel,

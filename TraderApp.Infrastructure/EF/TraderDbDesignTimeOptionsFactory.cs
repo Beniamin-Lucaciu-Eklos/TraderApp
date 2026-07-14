@@ -8,12 +8,19 @@ using System.Threading.Tasks;
 
 namespace TraderApp.Infrastructure.EF
 {
-    public class TraderDbDesignTimeOptionsFactory : IDesignTimeDbContextFactory<TraderDbContext>
+    public class TraderDbDesignTimeOptionsFactory
     {
+        private readonly string _connectionString;
+
+        public TraderDbDesignTimeOptionsFactory(string connectionString)
+        {
+            _connectionString = connectionString;
+        }
+
         public TraderDbContext CreateDbContext(string[] args = null)
         {
             var optionsBuilder = new DbContextOptionsBuilder<TraderDbContext>();
-            optionsBuilder.UseSqlServer("Data Source=.\\SQLEXPRESS;Initial Catalog=TraderDb;Integrated Security=True;Persist Security Info=False;Pooling=False;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=True;Command Timeout=0");
+            optionsBuilder.UseSqlServer(_connectionString);
             return new TraderDbContext(optionsBuilder.Options);
         }
     }

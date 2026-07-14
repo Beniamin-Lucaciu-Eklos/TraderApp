@@ -1,5 +1,6 @@
 ﻿using Bogus;
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
@@ -11,14 +12,31 @@ namespace TraderApp.FinancialApi.Services
 {
     public class MockStockPriceService : IStockPriceService
     {
+        private static readonly Random _random = new Random();
+        private readonly ConcurrentDictionary<string, decimal> _basePrices = new ConcurrentDictionary<string, decimal>();
+
         public async Task<decimal> GetPriceAsync(string symbol)
         {
-            await Task.Delay(2400); // Simulate network delay
+            await Task.Delay(2400); 
+               
+            decimal basePrice = _basePrices.GetOrAdd(symbol, s => GenerateSeedPrice(s));
 
-            var faker = new Faker(CultureInfo.CurrentCulture.TwoLetterISOLanguageName);
+            double changePercent = (_random.NextDouble() * 4.0 - 2.0) / 100.0; // -2% to +2%
+            decimal newPrice = basePrice * (1 + (decimal)changePercent);
 
-            decimal price = faker.Finance.Amount(10M, 90000M);
-            return price;
+   
+            newPrice = Math.Max(newPrice, 0.01M);
+
+            _basePrices[symbol] = newPrice;
+
+            return Math.Round(newPrice, 2);
+        }
+
+        private decimal GenerateSeedPrice(string symbol)
+        {
+            int hash = symbol.GetHashCode();
+            var seededRandom = new Random(hash);
+            return (decimal)(seededRandom.NextDouble() * (900 - 10) + 10);
         }
     }
 }
