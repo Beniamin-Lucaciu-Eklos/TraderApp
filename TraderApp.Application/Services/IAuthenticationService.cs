@@ -17,6 +17,16 @@ namespace TraderApp.Application.Services
 
     public interface IAuthenticationService
     {
+        /// <summary>
+        ///  Register user into app
+        /// </summary>
+        /// <param name="email">the user's email</param>
+        /// <param name="username">the user's name</param>
+        /// <param name="password">the user's password</param>
+        /// <param name="confirmPassword">re enter passaword</param>
+        /// <returns>enum entry Registration result</returns>
+        /// <exception cref="ArgumentNullException">throw's when any are empty.
+        /// </exception>
         Task<RegistrationResult> Register(string email, string username, string password, string confirmPassword);
 
         /// <summary>

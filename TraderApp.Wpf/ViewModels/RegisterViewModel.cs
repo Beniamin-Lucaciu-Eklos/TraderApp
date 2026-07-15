@@ -43,24 +43,29 @@ namespace TraderApp.Wpf.ViewModels
         private async Task Register()
         {
             ErrorMessageViewModel.Message = null;
-
-            var registrationResult = await _authenticator.Register(Email, UserName, Password, ConfirmPassword);
-            if (registrationResult != RegistrationResult.Success)
+            try
             {
-                ErrorMessageViewModel.Message = registrationResult switch
+                var registrationResult = await _authenticator.Register(Email, UserName, Password, ConfirmPassword);
+                if (registrationResult != RegistrationResult.Success)
                 {
-                    RegistrationResult.UserNameAlreadyExists => "User name already exists!",
-                    RegistrationResult.EmailAlreadyExists => "Email already exists!",
-                    RegistrationResult.PasswordsDoNotMatch => "Passwords doesn't match !",
-                    
-                    _ => "Registration failed"
-                };
+                    ErrorMessageViewModel.Message = registrationResult switch
+                    {
+                        RegistrationResult.UserNameAlreadyExists => "User name already exists!",
+                        RegistrationResult.EmailAlreadyExists => "Email already exists!",
+                        RegistrationResult.PasswordsDoNotMatch => "Passwords doesn't match !",
 
-                return;
+                        _ => "Registration failed"
+                    };
+
+                    return;
+                }
+
+                _loginRenavigator.Renavigate();
             }
-
-            _loginRenavigator.Renavigate();
-
+            catch (Exception)
+            {
+                ErrorMessageViewModel.Message = $"Registration failed";
+            }
         }
 
         [RelayCommand]

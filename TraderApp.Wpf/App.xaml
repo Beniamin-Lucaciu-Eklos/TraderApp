@@ -10,34 +10,8 @@
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="/Styles/Common.xaml" />
                 <ResourceDictionary Source="/Styles/NavigationBar.xaml" />
+                <ResourceDictionary Source="/AppNavigationDataTemplates.xaml"/>
             </ResourceDictionary.MergedDictionaries>
-
-            <DataTemplate DataType="{x:Type vm:HomeViewModel}">
-                <views:HomeView DataContext="{Binding}"/>
-            </DataTemplate>
-
-            <DataTemplate DataType="{x:Type vm:PortfolioViewModel}">
-                <views:PorfolioView DataContext="{Binding}"/>
-            </DataTemplate>
-
-            <DataTemplate DataType="{x:Type vm:BuyViewModel}">
-                <views:BuyView DataContext="{Binding}"/>
-            </DataTemplate>
-
-            <DataTemplate DataType="{x:Type vm:SellViewModel}">
-                <views:SellView DataContext="{Binding}"/>
-            </DataTemplate>
-
-            <DataTemplate DataType="{x:Type vm:LoginViewModel}">
-                <views:LoginView DataContext="{Binding}"
-                                 Password="{Binding Password}"/>
-            </DataTemplate>
-            
-            <DataTemplate DataType="{x:Type vm:RegisterViewModel}">
-                <views:RegisterView DataContext="{Binding}"
-                                    Password="{Binding Password}"
-                                    ConfirmPassword="{Binding ConfirmPassword}"/>
-            </DataTemplate>
         </ResourceDictionary>
 
     </Application.Resources>

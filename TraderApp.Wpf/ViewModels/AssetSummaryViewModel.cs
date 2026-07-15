@@ -11,45 +11,21 @@ namespace TraderApp.Wpf.ViewModels
     public partial class AssetSummaryViewModel : ViewModelBase
     {
         private readonly AssetStore _assetStore;
-        private readonly ObservableCollection<AssetViewModel> _topAssets;
-
         public AssetSummaryViewModel(AssetStore assetStore)
         {
             _assetStore = assetStore;
+            AssetListingViewModel = new AssetListingViewModel(assetStore, assetStore => assetStore.Take(3));
 
-            _topAssets = new ObservableCollection<AssetViewModel>();
             _assetStore.StateChanged += AssetStore_StateChanged;
-
-            ResetAssets();
         }
 
-        public decimal AccountBalance => _assetStore.AccountBalance;
+        public AssetListingViewModel AssetListingViewModel { get; }
 
-        public IEnumerable<AssetViewModel> TopAssets => _topAssets;
+        public decimal AccountBalance => _assetStore.AccountBalance;
 
         private void AssetStore_StateChanged()
         {
             OnPropertyChanged(nameof(AccountBalance));
-            ResetAssets();
-        }
-
-        private void ResetAssets()
-        {
-            IEnumerable<AssetViewModel> assetViewModels = _assetStore.AssetTransactions
-                .GroupBy(x => x.Asset.Symbol)
-                .Select(g =>
-                    new AssetViewModel(g.Key,
-                        g.Sum(a => a.IsPurchase ? a.Shares : -a.Shares)))
-                .Where(a => a.Shares > 0)
-                .OrderByDescending(a => a.Shares)
-                .Take(3);
-
-            _topAssets.Clear();
-
-            foreach (AssetViewModel assetViewModel in assetViewModels)
-            {
-                _topAssets.Add(assetViewModel);
-            }
         }
     }
 }

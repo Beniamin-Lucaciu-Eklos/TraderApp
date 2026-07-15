@@ -22,8 +22,23 @@ namespace TraderApp.Infrastructure.Services
             _passwordHasher = passwordHasher;
         }
 
+        /// <summary>
+        ///  Register user into app
+        /// </summary>
+        /// <param name="email">the user's email</param>
+        /// <param name="username">the user's name</param>
+        /// <param name="password">the user's password</param>
+        /// <param name="confirmPassword">re enter passaword</param>
+        /// <returns>enum entry Registration result</returns>
+        /// <exception cref="ArgumentNullException">throw's when any are empty.
+        /// </exception>
         public async Task<RegistrationResult> Register(string email, string username, string password, string confirmPassword)
         {
+            ArgumentNullException.ThrowIfNullOrWhiteSpace(email);
+            ArgumentNullException.ThrowIfNullOrWhiteSpace(username);
+            ArgumentNullException.ThrowIfNullOrWhiteSpace(password);
+            ArgumentNullException.ThrowIfNullOrWhiteSpace(confirmPassword);
+
             RegistrationResult result = RegistrationResult.Success;
 
             if (password != confirmPassword)
